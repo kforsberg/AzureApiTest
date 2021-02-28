@@ -17,7 +17,7 @@ namespace CarLotFunctions
     {
         [FunctionName("GetCar")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "GetCar/{id}")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "cars/{id}")] HttpRequest req,
             string id, ExecutionContext context, ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
@@ -38,11 +38,9 @@ namespace CarLotFunctions
 
                 return new OkObjectResult(car);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                //return new BadRequestObjectResult("Could not parse data");
-                return new BadRequestObjectResult(ex.Message);
+                return new BadRequestObjectResult("An unexpected error occurred");
             }
         }
     }
