@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "functions", "functions.csproj", "{128B01AD-5EA5-45A5-909D-29A712A662F1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarLotFunctions", "CarLotFunctions.csproj", "{DE23F470-0AC8-4824-BA1A-B19EC53D71DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{128B01AD-5EA5-45A5-909D-29A712A662F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{128B01AD-5EA5-45A5-909D-29A712A662F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{128B01AD-5EA5-45A5-909D-29A712A662F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{128B01AD-5EA5-45A5-909D-29A712A662F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE23F470-0AC8-4824-BA1A-B19EC53D71DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE23F470-0AC8-4824-BA1A-B19EC53D71DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE23F470-0AC8-4824-BA1A-B19EC53D71DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE23F470-0AC8-4824-BA1A-B19EC53D71DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {D2F3EADF-4B29-4A5F-AD31-49B266D673FF}
+		SolutionGuid = {1F9D9886-4DD3-40E5-BCC2-AE4B97BF9433}
 	EndGlobalSection
 EndGlobal

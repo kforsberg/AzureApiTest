@@ -1,4 +1,3 @@
-
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -6,19 +5,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using MongoDB.Driver;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Bson;
 
-namespace functions
+namespace CarLotFunctions
 {
     public static class GetCar
     {
         [FunctionName("GetCar")]
-        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req, ExecutionContext context, ILogger log)
+        public static async Task<IActionResult> Run(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "GetCar/{id}")] HttpRequest req,
+            string id, ExecutionContext context, ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
@@ -33,9 +33,10 @@ namespace functions
                 var driver = new MongoClient(config["mongoConnectionString"]);
                 var db = driver.GetDatabase("jobfit-carlot-db");
                 var collection = db.GetCollection<CarModel>("jobfit-carlot-db");
-                var results = collection.Find(new BsonDocument()).ToList();
+                var filter = Builders<CarModel>.Filter.Eq("id", id);
+                var car = collection.Find(filter).FirstOrDefault();
 
-                return new OkObjectResult(results);
+                return new OkObjectResult(car);
             }
             catch (Exception ex)
             {
