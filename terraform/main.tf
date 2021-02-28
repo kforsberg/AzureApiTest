@@ -105,12 +105,12 @@ resource "azurerm_function_app" "funcapp" {
   app_service_plan_id        = azurerm_app_service_plan.funcasp.id
   storage_account_name       = azurerm_storage_account.funcstrg.name
   storage_account_access_key = azurerm_storage_account.funcstrg.primary_access_key
+  version = "~3"
   source_control {
     repo_url = "https://github.com/kforsberg/AzureApiTest.git"
     branch = "master"
   }
   app_settings = {
-    # TODO: Build the connection string
     "mongoConnectionString" = azurerm_cosmosdb_account.cosmos.connection_strings[0]
   }
 }
