@@ -18,7 +18,7 @@ namespace functions
     public static class DeleteCar
     {
         [FunctionName("DeleteCar")]
-        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "delete", Route = "{id:string}")] HttpRequest req, ExecutionContext context, ILogger log)
+        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "delete", Route = "DeleteCar/{id}")] HttpRequest req, string id, ExecutionContext context, ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
@@ -30,7 +30,6 @@ namespace functions
 
             try
             {
-                string id = req.Query["id"];
                 var driver = new MongoClient(config["mongoConnectionString"]);
                 var db = driver.GetDatabase("jobfit-carlot-db");
                 var collection = db.GetCollection<CarModel>("jobfit-carlot-db");
