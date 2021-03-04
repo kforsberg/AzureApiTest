@@ -13,6 +13,8 @@ namespace CarLotFunctions
         public int? Year { get; set; }
         public string Color { get; set; }
         public bool IsNew { get; set; }
+        public int? Cost { get; set; }
+        public int? Mileage { get; set; }
 
         public static CarModel Build(dynamic data)
         {
@@ -22,7 +24,9 @@ namespace CarLotFunctions
                 Model = data?.model,
                 Year = data?.year,
                 Color = data?.color,
-                IsNew = data?.isNew ?? false
+                IsNew = data?.isNew ?? false,
+                Cost = data?.cost,
+                Mileage = data?.mileage
             };
         }
     }
