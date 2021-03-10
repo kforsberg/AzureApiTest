@@ -13,15 +13,17 @@ using MongoDB.Bson;
 
 namespace CarLotFunctions
 {
-    public static class GetCar
+    public static class UpdateCar
     {
-        [FunctionName("GetCar")]
+        [FunctionName("UpdateCar")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "cars/{id}")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "cars/{id}")] HttpRequest req,
             string id, ExecutionContext context, ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            dynamic data = JsonConvert.DeserializeObject(requestBody);
             var config = new ConfigurationBuilder()
                 .SetBasePath(context.FunctionAppDirectory)
                 .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
@@ -33,13 +35,23 @@ namespace CarLotFunctions
                 var driver = new MongoClient(config["mongoConnectionString"]);
                 var db = driver.GetDatabase("jobfit-carlot-db");
                 var collection = db.GetCollection<CarModel>("jobfit-carlot-db");
+                var updateFilter = Builders<CarModel>.Filter.Eq("id", new BsonObjectId(new ObjectId(id)));
                 var car = collection.Find(car => car.Id == new BsonObjectId(new ObjectId(id))).FirstOrDefault();
+                var newCar = CarModel.Build(data);
+                if (car == null)
+                {
+                    return new NotFoundObjectResult("No Content");
+                }
 
-                return new OkObjectResult(car);
+                newCar.Id = car.Id;
+                collection.ReplaceOne(Builders<CarModel>.Filter.Eq(car => car.Id, new BsonObjectId(new ObjectId(id))), newCar);
+
+                return new OkObjectResult(newCar);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return new BadRequestObjectResult("An unexpected error occurred");
+                //return new BadRequestObjectResult("An unexpected error occurred");
+                return new BadRequestObjectResult(ex.Message);
             }
         }
     }
