@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using MongoDB.Driver;
 using Microsoft.Extensions.Configuration;
+using MongoDB.Bson;
 
 namespace CarLotFunctions
 {
@@ -27,15 +28,16 @@ namespace CarLotFunctions
                 .AddEnvironmentVariables()
                 .Build();
 
+            log.LogError("Hello");
+
             try
             {
                 var driver = new MongoClient(config["mongoConnectionString"]);
                 var db = driver.GetDatabase("jobfit-carlot-db");
                 var collection = db.GetCollection<CarModel>("jobfit-carlot-db");
-                var deleteFilter = Builders<CarModel>.Filter.Eq("id", id);
-                collection.DeleteOne(deleteFilter);
+                await collection.DeleteOneAsync(car => car.Id == new BsonObjectId(new ObjectId(id)));
 
-                return new OkObjectResult("Record Deleted");
+                return new OkObjectResult("Record Deleted!");
             }
             catch (Exception)
             {
